@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" class="w-full h-full" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="library/Daisy.css" rel="stylesheet">
+    <script src="library/Tailwind.js"></script>
+    <title>JS GAME</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body class="w-full h-full">
+    <div class="container w-full h-[100vh] mx-auto">
+        <div class="relative w-full h-[10%] flex items-center px-[5%]">
+            <div id='alert' class="pointer-events-none opacity-0 transition-opacity duration-500 absolute z-[100] w-full left-0 top-2">
+                <div role="alert" class="alert alert-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span id='alert_content'>Error! Task failed successfully.</span>
+                </div>
+            </div>
+
+            <p class="Geist text-xl font-bold basis-full">BFS-DFS Visualizer</p>
+            <div class="dropdown dropdown-end dropdown-hover Geist">
+                <div tabindex="0" role="button" class="btn">Theme</div>
+                <ul id="List_Theme" tabindex="0"
+                    class="dropdown-content menu bg-base-100 rounded-box z-[90] p-2 shadow h-64 flex flex-col flex-nowrap overflow-y-scroll">
+                </ul>
+            </div>
+        </div>
+        <div class="w-full h-[65%] flex flex-col justify-center items-center py-5 gap-2">
+            <div class="mockup-code w-[90%] h-full">
+                <canvas id="canvas" class="bg-primary-content w-full h-full">
+                </canvas>
+            </div>
+            <div class="flex gap-5 w-[90%] items-center">
+                <div class="dropdown dropdown-bottom dropdown-hover Geist">
+                    <div tabindex="0" role="button" class="btn btn-primary-content text-primary" id="method_name">BFS
+                    </div>
+                    <ul id="method_select" tabindex="0"
+                        class="dropdown-content menu bg-base-100 rounded-box z-[100] p-2 shadow  flex flex-col flex-nowrap overflow-y-scroll">
+                    </ul>
+                </div>
+                <p class="Geist text-lg font-bold text-primary whitespace-nowrap overflow-y-auto" id="result">Result:
+                </p>
+            </div>
+        </div>
+        <div class="w-full h-[20%] flex flex-col justify-center items-center mt-3 gap-3">
+            <div class="flex gap-5 px-3">
+                <div class="flex flex-col gap-3">
+                    <p class="Geist text-accent">Parent Node</p>
+                    <input id="Parent" type="text" placeholder="Type here"
+                        class="input w-full max-w-xs bg-primary-content text-primary" />
+                </div>
+                <div class="flex flex-col gap-3">
+                    <p class="Geist text-accent">Children Node</p>
+                    <input id="Children" type="text" placeholder="Type here"
+                        class="input w-full max-w-xs bg-primary-content text-primary" />
+                </div>
+            </div>
+            <div class="flex gap-5">
+                <button class="btn" id="find">Find Path</button>
+                <button class="btn" id="add">Add</button>
+                <button class="btn" id="delete">Delete</button>
+                <button class="btn" id="animation">Animation</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./function/theme.js"></script>
+<script src="./function/main.js"></script>
+
+</html>
