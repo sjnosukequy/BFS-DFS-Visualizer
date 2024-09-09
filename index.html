@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="library/Daisy.css" rel="stylesheet">
     <script src="library/Tailwind.js"></script>
-    <title>JS GAME</title>
+    <title>BFS-DFS Visualizer</title>
+    <link rel="icon" type="image/x-icon" href="./image/icon.svg">
     <link href="style.css" rel="stylesheet">
 </head>
 
@@ -33,9 +34,15 @@
             </div>
         </div>
         <div class="w-full h-[65%] flex flex-col justify-center items-center py-5 gap-2">
-            <div class="mockup-code w-[90%] h-full">
+            <div class="relative group mockup-code w-[90%] h-full">
                 <canvas id="canvas" class="bg-primary-content w-full h-full">
                 </canvas>
+                <div class="hidden group-hover:block absolute top-0 left-0 w-full h-full">
+                    <button id="left" class="text-center absolute top-1/2 left-3 Geist text-primary">LEFT</button>
+                    <button id="right" class="text-center absolute top-1/2 right-3 Geist text-primary">RIGHT</button>
+                    <button id="up" class="text-center absolute top-3 left-1/2 Geist text-primary">UP</button>
+                    <button id="down" class="text-center absolute bottom-3 left-1/2 Geist text-primary">DOWN</button>
+                </div>
             </div>
             <div class="flex gap-5 w-[90%] items-center">
                 <div class="dropdown dropdown-bottom dropdown-hover Geist">

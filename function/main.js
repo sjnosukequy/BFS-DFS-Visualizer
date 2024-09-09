@@ -130,7 +130,8 @@ B.addChild(D)
 let itt = new Itterator(A)
 // itt.setMethod('DFS')
 while (itt.hasNext()) {
-    console.log(itt.next().Name)
+    // console.log(itt.next().Name) 
+    itt.next()
 }
 
 // METHOD SELECT
@@ -175,8 +176,8 @@ document.getElementById('find').addEventListener('click', () => {
 })
 
 document.getElementById('add').addEventListener('click', () => {
-    let parent = document.getElementById('Parent').value
-    let children = document.getElementById('Children').value
+    let parent = document.getElementById('Parent').value.toUpperCase()
+    let children = document.getElementById('Children').value.toUpperCase()
     if (children == 'A') {
         alertShow('Cannot add A')
         return
@@ -189,12 +190,14 @@ document.getElementById('add').addEventListener('click', () => {
         alertShow('children cannot be empty')
         return
     }
-    if (!itt.checkExist(parent))
+    if (!itt.checkExist(parent)) {
         alertShow('Parent does not exist -> Set Parent another name')
+        return
+    }
 
     if (!itt.checkExist(children)) {
         itt.getExistNode(parent).addChild(new Node(children))
-        console.log('Add ' + children + ' to ' + parent)
+        // console.log('Add ' + children + ' to ' + parent)
         itt.fullPass()
         canvasReset()
         canvasDraw(false)
@@ -207,8 +210,8 @@ document.getElementById('add').addEventListener('click', () => {
 })
 
 document.getElementById('delete').addEventListener('click', () => {
-    let parent = document.getElementById('Parent').value
-    let children = document.getElementById('Children').value
+    let parent = document.getElementById('Parent').value.toUpperCase()
+    let children = document.getElementById('Children').value.toUpperCase()
     if (children == 'A') {
         alertShow('Cannot add A')
         return
@@ -221,19 +224,25 @@ document.getElementById('delete').addEventListener('click', () => {
         alertShow('children cannot be empty')
         return
     }
-    if (!itt.checkExist(parent))
+    if (!itt.checkExist(parent)) {
         alertShow('Parent does not exist -> Set Parent another name')
+        return
+    }
 
     if (itt.checkExist(children)) {
         let parentNode = itt.getExistNode(parent)
         let childrenNode = itt.getExistNode(children)
+        if (childrenNode.parent != parentNode) {
+            alertShow('Children is not child of Parent')
+            return
+        }
         // Delete All references
         let newItt = new Itterator(childrenNode)
         while (newItt.hasNext()) {
             let child = newItt.next()
             child.parent = null
             child.Children = []
-            console.log(child)
+            // console.log(child)
         }
         // Delete Children Node
         for (let i = childrenNode.ChildrenIndex + 1; i < parentNode.Children.length; i++) {
@@ -257,10 +266,36 @@ document.getElementById('animation').addEventListener('click', () => {
     canvasDraw(true)
 })
 
+// CANVAS OFFSETING
+document.getElementById('left').addEventListener('click', () => {
+    offsetX -= 10
+    canvasReset()
+    canvasDraw(false)
+})
+
+document.getElementById('right').addEventListener('click', () => {
+    offsetX += 10
+    canvasReset()
+    canvasDraw(false)
+})
+
+document.getElementById('up').addEventListener('click', () => {
+    offsetY -= 10
+    canvasReset()
+    canvasDraw(false)
+})
+
+document.getElementById('down').addEventListener('click', () => {
+    offsetY += 10
+    canvasReset()
+    canvasDraw(false)
+})
 // DRAWING
 let canvas = document.getElementById('canvas')
 canvas.width = canvas.clientWidth
 canvas.height = canvas.clientHeight
+let offsetX = canvas.width / 2
+let offsetY = 0
 window.onresize = (event) => {
     // let ctx2 = canvas.getContext('2d')
     // xscale = canvas.clientWidth / canvas.width
@@ -271,6 +306,8 @@ window.onresize = (event) => {
     // var imgD = ctx.getImageData(0, 0, canvas.width - 1, canvas.height - 1)
     canvas.width = canvas.clientWidth
     canvas.height = canvas.clientHeight
+    offsetX = canvas.width / 2
+    offsetY = 0
     canvasReset()
     ctx.font = `${fontSize}px Arial`;
     ctx.setTransform(1, 0, 0, 1, 0, 20)
@@ -284,7 +321,7 @@ ctx.font = `${fontSize}px Arial`;
 ctx.setTransform(1, 0, 0, 1, 0, 20)
 
 function canvasReset() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.clearRect(0 - offsetX, 0 - 20, canvas.width + offsetX, canvas.height)
 }
 
 function canvasDraw(anim) {
@@ -299,15 +336,15 @@ function canvasDraw(anim) {
             // Draw Connection
             if (node.parent) {
                 ctx.beginPath()
-                ctx.moveTo(posRes[node.parent.Name].x * (fontSize + gap) + 10 + fontSize / 2 - 4, posRes[node.parent.Name].y * (fontSize + gap) + 15)
-                ctx.lineTo(posRes[node.Name].x * (fontSize + gap) + 10 + fontSize / 2 - 4, posRes[node.Name].y * (fontSize + gap) - 10)
+                ctx.moveTo(posRes[node.parent.Name].x * (fontSize + gap) + 10 + fontSize / 2 - 4 + offsetX, posRes[node.parent.Name].y * (fontSize + gap) + 15 + offsetY)
+                ctx.lineTo(posRes[node.Name].x * (fontSize + gap) + 10 + fontSize / 2 - 4 + offsetX, posRes[node.Name].y * (fontSize + gap) - 10 + offsetY)
                 ctx.lineWidth = 2
                 ctx.strokeStyle = color
                 ctx.stroke()
             }
             // Draw Node
             ctx.fillStyle = color
-            ctx.fillText(node.Name, posRes[node.Name].x * (fontSize + gap) + 10, posRes[node.Name].y * (fontSize + gap) + 10)
+            ctx.fillText(node.Name, posRes[node.Name].x * (fontSize + gap) + 10 + offsetX, posRes[node.Name].y * (fontSize + gap) + 10 + offsetY)
         }, delay)
         if (anim)
             delay += time_delay
